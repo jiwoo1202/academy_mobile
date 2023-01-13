@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../firebase/firebase_user.dart';
 import '../../provider/user_state.dart';
 import '../main_screen.dart';
 
@@ -14,6 +15,13 @@ class LoginMainScreen extends StatefulWidget {
 }
 
 class _LoginMainScreenState extends State<LoginMainScreen> {
+
+  @override
+  void initState() {
+    userGet();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final us = Get.put(UserState());

@@ -26,9 +26,9 @@ class _MainScreenState extends State<MainScreen> {
                 style: TextStyle(color: Colors.black),
               )),
           Obx(() => Text(
-            '${us.name}',
-            style: TextStyle(color: Colors.black),
-          )),
+                '${us.name}',
+                style: TextStyle(color: Colors.black),
+              )),
           TextButton(
             onPressed: () {
               us.decrease();

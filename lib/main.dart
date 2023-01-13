@@ -8,8 +8,9 @@ import 'screen/main_screen.dart';
 
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // print('-- WidgetsFlutterBinding.ensureInitialized');
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  print('-- WidgetsFlutterBinding.ensureInitialized');
+  await Firebase.initializeApp();
   print('-- main: Firebase.initializeApp');
 
   runApp(MyApp());
