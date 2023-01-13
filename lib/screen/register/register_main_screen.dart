@@ -134,8 +134,6 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   LengthLimitingTextInputFormatter(13),
                   FilteringTextInputFormatter.digitsOnly,
                   maskFormatter
-                  // TextInputMask(mask: '999-9999-9999', reverse: false)
-                  // _mobileMask
                 ],
                 decoration: InputDecoration(
                   labelText: '휴대폰 번호',
