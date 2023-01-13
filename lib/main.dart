@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'screen/main_screen.dart';
+import 'screen/register/register_main_screen.dart';
 
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       title: 'academy',
       home: LoginMainScreen(),
       routes: {
+        //register
+        RegisterMainScreen.id : (_) => RegisterMainScreen(),
+
         //login
         LoginMainScreen.id : (_) => LoginMainScreen(),
 
