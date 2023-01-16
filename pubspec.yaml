@@ -43,6 +43,8 @@ dependencies:
   firebase_storage: ^11.0.10
   flutter_local_notifications: ^13.0.0
   flutter_pdfview: ^1.2.5
+  flutter_svg: ^1.1.6
+  loading_animation_widget: ^1.1.0+5
   mask_text_input_formatter: ^2.4.0
   path_provider: ^2.0.11
 

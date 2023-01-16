@@ -3,7 +3,8 @@ import 'package:academy/firebase/firebase_test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../provider/test_state.dart';
+import '../../../../provider/test_state.dart';
+
 
 class TestCheckScreen extends StatefulWidget {
   const TestCheckScreen({Key? key}) : super(key: key);
@@ -16,28 +17,6 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   bool _isLoading = true;
   int correct = 0;
   List<String> number = ['1', '2', '3', '4', '5'];
-  // List<String> _answer = [
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1',
-  //   '1'
-  // ];
 
   @override
   void initState() {

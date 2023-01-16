@@ -7,7 +7,7 @@ import 'package:academy/components/font/font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-import '../../../firebase/firebase_test.dart';
+import '../../../../firebase/firebase_test.dart';
 import 'test_check_screen.dart';
 
 class TestMainScreen extends StatefulWidget {
@@ -82,7 +82,7 @@ class _TestMainScreenState extends State<TestMainScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${index + 1}', style: f18w500),
+                  Text('${index + 1}번 문제', style: f18w500),
                   Container(
                       height: 40,
                       child: ListView(

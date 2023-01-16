@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../api/pdf/pdf_api.dart';
@@ -7,10 +8,10 @@ import '../../components/font/font.dart';
 import '../../firebase/firebase_user.dart';
 import '../../model/user.dart';
 import '../../provider/user_state.dart';
-import '../main_screen.dart';
+import '../main/student/test/test_main_screen.dart';
+import '../main/main_screen.dart';
+import '../mypage/mypage_screen.dart';
 import '../register/register_main_screen.dart';
-import '../student/test/test_main_screen.dart';
-
 class LoginMainScreen extends StatefulWidget {
   static final String id = '/login_main';
 
@@ -345,19 +346,22 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MainButton(
                   onPressed: () async {
+                    await userGet('w3yMrDPlPZQr1j92hrS9');
                     switch (_nestedTabController.index) {
+
                       case 0:
-                        us.number.value = _studentIdController.text;
-                        final url =
-                            'https://firebasestorage.googleapis.com/v0/b/miocr-82323.appspot.com/o/test.pdf?alt=media&token=0fd055a8-aa9d-41d8-970c-1c882ed6d5dc';
-                        final file = await PDFApi.loadNetwork(url);
-                        Get.to(()=>TestMainScreen(file: file));
+                        // us.number.value = _studentIdController.text;
+                        // final url =
+                        //     'https://firebasestorage.googleapis.com/v0/b/miocr-82323.appspot.com/o/test.pdf?alt=media&token=0fd055a8-aa9d-41d8-970c-1c882ed6d5dc';
+                        // final file = await PDFApi.loadNetwork(url);
+                        // Get.to(()=>TestMainScreen(file: file));
+                        Get.to(() => BottomNavigator());
                         print('go to student');
                         break;
                       case 1:
                         // us.name.value = 'i am teacher';
                         // Get.toNamed(MainScreen.id);
-
+                        Get.to(() => BottomNavigator());
                         print('go to teacher');
                         break;
                     }
@@ -403,34 +407,92 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                   ],
                 ),
               ),
-              // Obx(() => Text(
-              //   '${us.count}',
-              //   style: TextStyle(color: Colors.black),
-              // )),
-              //
-              // TextButton(
-              //   onPressed: () {
-              //     us.increase();
-              //     us.name.value = 'my name is ipad';
-              //   },
-              //   child: Text(
-              //     'hello',
-              //     style: TextStyle(color: Colors.black,fontSize: 24),
-              //   ),
-              // ),
-              //
-              // TextButton(
-              //   onPressed: () {
-              //     Get.toNamed(MainScreen.id);
-              //   },
-              //   child: Text(
-              //     'move',
-              //     style: TextStyle(color: Colors.black,fontSize: 24),
-              //   ),
-              // ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BottomNavigator extends StatefulWidget {
+  static final String id = '/bottom';
+
+  const BottomNavigator({Key? key}) : super(key: key);
+
+  @override
+  State<BottomNavigator> createState() => _BottomNavigatorState();
+}
+
+class _BottomNavigatorState extends State<BottomNavigator> with TickerProviderStateMixin {
+  List<Widget> _widgetOptions = [];
+  late TabController _bottomTabController;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = [MainScreen(), MypageScreen()];
+    _bottomTabController = TabController(length: 2, vsync: this);
+    // _bottomTabController.animateTo(0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final us = Get.put(UserState());
+
+    return Scaffold(
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: TabBar(
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          indicatorColor: Colors.transparent,
+          indicatorSize: TabBarIndicatorSize.label,
+          controller: _bottomTabController,
+          unselectedLabelStyle: TextStyle(fontSize: 16, fontFamily: 'NotoSansKr', fontWeight: FontWeight.w300),
+          labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'NotoSansKr'),
+          unselectedLabelColor: Colors.grey,
+          labelColor: const Color(0xff3D6177),
+          tabs: <Widget>[
+            Tab(
+              icon: _currentIndex == 0
+                  ? SvgPicture.asset(
+                'assets/bottom/home_click.svg',
+                width: 25,
+                height: 20,
+              )
+                  : SvgPicture.asset(
+                'assets/bottom/home_not_click.svg',
+                width: 25,
+                height: 20,
+              ),
+              text: '홈',
+            ),
+            Tab(
+              icon: _currentIndex == 1
+                  ? SvgPicture.asset(
+                'assets/bottom/my_profile_click.svg',
+                width: 20,
+                height: 20,
+              )
+                  : SvgPicture.asset(
+                'assets/bottom/my_profile_not_click.svg',
+                width: 20,
+                height: 20,
+              ),
+              text: '마이페이지',
+            ),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
+        children: _widgetOptions,
+        controller: _bottomTabController,
       ),
     );
   }
