@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../api/pdf/pdf_api.dart';
 import '../../components/button/main_button.dart';
 import '../../components/font/font.dart';
 import '../../firebase/firebase_user.dart';
@@ -8,6 +9,7 @@ import '../../model/user.dart';
 import '../../provider/user_state.dart';
 import '../main_screen.dart';
 import '../register/register_main_screen.dart';
+import '../student/test/test_main_screen.dart';
 
 class LoginMainScreen extends StatefulWidget {
   static final String id = '/login_main';
@@ -345,13 +347,17 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                   onPressed: () async {
                     switch (_nestedTabController.index) {
                       case 0:
-                        us.name.value = 'i am student';
-                        Get.toNamed(MainScreen.id);
+                        us.number.value = _studentIdController.text;
+                        final url =
+                            'https://firebasestorage.googleapis.com/v0/b/miocr-82323.appspot.com/o/test.pdf?alt=media&token=0fd055a8-aa9d-41d8-970c-1c882ed6d5dc';
+                        final file = await PDFApi.loadNetwork(url);
+                        Get.to(()=>TestMainScreen(file: file));
                         print('go to student');
                         break;
                       case 1:
-                        us.name.value = 'i am teacher';
-                        Get.toNamed(MainScreen.id);
+                        // us.name.value = 'i am teacher';
+                        // Get.toNamed(MainScreen.id);
+
                         print('go to teacher');
                         break;
                     }
@@ -385,7 +391,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          print('123123123: ${us.userList[0].docId}');
+                          // print('123123123: ${us.userList[0].docId}');
                         },
                         child: Text(
                           '비밀번호 찾기',

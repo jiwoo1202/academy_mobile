@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'screen/main_screen.dart';
 import 'screen/register/register_main_screen.dart';
+import 'screen/student/test/test_main_screen.dart';
 
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
 
         //login
         LoginMainScreen.id : (_) => LoginMainScreen(),
+
+        //test
+        // TestMainScreen.id : (_) => TestMainScreen(),
 
         //main screen
         MainScreen.id : (_) => MainScreen(),

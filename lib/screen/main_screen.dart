@@ -32,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
           TextButton(
             onPressed: () {
               us.decrease();
-              setState(() {});
             },
             child: Text(
               'hello',

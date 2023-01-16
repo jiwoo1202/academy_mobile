@@ -35,15 +35,15 @@ Future<void> firebaseUserUpdate(String docId, String changeKey, String changeVal
   }
 }
 
-Future<void> firebaseUserCreate(String createDate, String day, String docId, String email, String group,
-    String id, String month, String name, String phoneNumber, String pw, String temp1, String temp2, String token,
-    String userType, String year) async {
+Future<void> firebaseUserCreate(String email, String group,
+    String id, String name, String phoneNumber, String pw,String year,String month,String day, String temp1, String temp2,
+    String userType) async {
   try {
     final CollectionReference ref = FirebaseFirestore.instance.collection('user');
     User users = User(
-      createDate: createDate,
+      createDate: '${DateTime.now()}',
       day: day,
-      docId: docId,
+      docId: '',
       email : email,
       group : group,
       id : id,
@@ -53,7 +53,7 @@ Future<void> firebaseUserCreate(String createDate, String day, String docId, Str
       pw: pw,
       temp1: temp1,
       temp2: temp2,
-      token: token,
+      token: '',
       userType: userType,
       year: year,
     );

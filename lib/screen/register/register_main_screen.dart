@@ -75,6 +75,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 ),
                 keyboardType: TextInputType.text,
               ),
+
               const SizedBox(height: 12,),
               TextField(
                 controller: _pwCon,
@@ -126,8 +127,8 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 obscureText: !_obscureText,
                 keyboardType: TextInputType.text,
               ),
-              const SizedBox(height: 12,),
 
+              const SizedBox(height: 12,),
               TextField(
                 controller: _phoneCon,
                 inputFormatters: [
@@ -153,8 +154,34 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 ),
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 12,),
 
+              const SizedBox(height: 12,),
+              TextField(
+                controller: _otpCon,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(13),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(
+                  labelText: '인증번호',
+                  hintText: '인증번호를 입력해주세요',
+                  labelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+
+              const SizedBox(height: 12,),
               TextField(
                 controller: _nameCon,
                 decoration: InputDecoration(
@@ -175,8 +202,8 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 ),
                 keyboardType: TextInputType.text
               ),
-              const SizedBox(height: 12,),
 
+              const SizedBox(height: 12,),
               TextField(
                 controller: _birthCon,
                 inputFormatters: [

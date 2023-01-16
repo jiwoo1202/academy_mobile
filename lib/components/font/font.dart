@@ -112,6 +112,13 @@ const TextStyle f20Greyw400 = TextStyle(
 //Grey
 
 //Blue
+const TextStyle f24Bluew700 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: const Color(0xff20AFFF),
+    fontFamily: 'SpoqaHanSansNeo',
+    decoration: TextDecoration.none);
 const TextStyle f12Bluew500 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
@@ -124,6 +131,36 @@ const TextStyle k14Bluew400 = TextStyle(
 //Blue
 
 //Green(Brand2)
+const TextStyle f24Greenw700 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: const Color(0xff558E99),
+    fontFamily: 'SpoqaHanSansNeo');
+const TextStyle f20Greenw700 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: const Color(0xff558E99),
+    fontFamily: 'SpoqaHanSansNeo');
+const TextStyle f18Greenw700 = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: const Color(0xff558E99),
+    fontFamily: 'SpoqaHanSansNeo');
+const TextStyle f18Greenw500 = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    color: const Color(0xff558E99),
+    fontFamily: 'SpoqaHanSansNeo');
+const TextStyle f16Greenw500 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    color: const Color(0xff558E99),
+    fontFamily: 'SpoqaHanSansNeo');
 const TextStyle f14Greenw500 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -154,6 +191,13 @@ const TextStyle f12LGreenw500 = TextStyle(
 //Green(light)
 
 //Red
+const TextStyle f24Redw700 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: const Color(0xffFF5050),
+    fontFamily: 'SpoqaHanSansNeo',
+    decoration: TextDecoration.none);
 const TextStyle f12Redw500 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
