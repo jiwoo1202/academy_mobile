@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,6 @@ import '../../provider/user_state.dart';
 import '../main_screen.dart';
 import '../register/register_main_screen.dart';
 import '../student/test/test_main_screen.dart';
-
 class LoginMainScreen extends StatefulWidget {
   static final String id = '/login_main';
 
@@ -30,6 +30,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
   TextEditingController _teacherPwController = TextEditingController();
   bool _obscureText = false;
   bool _obscureText2 = false;
+  
   List _userList = [];
   @override
   void initState() {
@@ -109,6 +110,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                         const SizedBox(
                           height: 20,
                         ),
+
                         /// ID
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -360,6 +362,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                         }
 
                         //맞으면 로그 뜨게 // 학생/ 둘다
+
                         // us.number.value = _studentIdController.text;
                         // final url =
                         //     'https://firebasestorage.googleapis.com/v0/b/miocr-82323.appspot.com/o/test.pdf?alt=media&token=0fd055a8-aa9d-41d8-970c-1c882ed6d5dc';
@@ -372,6 +375,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                         // Get.toNamed(MainScreen.id);
 
                         print('선생로그인');
+
                         break;
                     }
                   },
@@ -444,6 +448,89 @@ class _LoginMainScreenState extends State<LoginMainScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BottomNavigator extends StatefulWidget {
+  static final String id = '/bottom';
+
+  const BottomNavigator({Key? key}) : super(key: key);
+
+  @override
+  State<BottomNavigator> createState() => _BottomNavigatorState();
+}
+
+class _BottomNavigatorState extends State<BottomNavigator> with TickerProviderStateMixin {
+  List<Widget> _widgetOptions = [];
+  late TabController _bottomTabController;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = [MainScreen(), MyPageScreen()];
+    _bottomTabController = TabController(length: 2, vsync: this);
+    // _bottomTabController.animateTo(0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final us = Get.put(UserState());
+
+    return Scaffold(
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: TabBar(
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          indicatorColor: Colors.transparent,
+          indicatorSize: TabBarIndicatorSize.label,
+          controller: _bottomTabController,
+          unselectedLabelStyle: TextStyle(fontSize: 16, fontFamily: 'NotoSansKr', fontWeight: FontWeight.w300),
+          labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'NotoSansKr'),
+          unselectedLabelColor: Colors.grey,
+          labelColor: const Color(0xff3D6177),
+          tabs: <Widget>[
+            Tab(
+              icon: _currentIndex == 0
+                  ? SvgPicture.asset(
+                'assets/bottom/home_click.svg',
+                width: 25,
+                height: 20,
+              )
+                  : SvgPicture.asset(
+                'assets/bottom/home_not_click.svg',
+                width: 25,
+                height: 20,
+              ),
+              text: '홈',
+            ),
+            Tab(
+              icon: _currentIndex == 1
+                  ? SvgPicture.asset(
+                'assets/bottom/my_profile_click.svg',
+                width: 20,
+                height: 20,
+              )
+                  : SvgPicture.asset(
+                'assets/bottom/my_profile_not_click.svg',
+                width: 20,
+                height: 20,
+              ),
+              text: '마이페이지',
+            ),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
+        children: _widgetOptions,
+        controller: _bottomTabController,
       ),
     );
   }

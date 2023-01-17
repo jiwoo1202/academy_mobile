@@ -1,3 +1,4 @@
+
 import 'package:academy/components/font/font.dart';
 import 'package:academy/provider/user_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -50,11 +51,13 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
     _otpCon.dispose();
     _nameCon.dispose();
     _birthCon.dispose();
+
     bool _phoneAuth = false;
     // _monthCon.dispose();
     // _dayCon.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final us =Get.put(UserState());
@@ -106,6 +109,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 onChanged: (v){
                   us.pw.value = _pwCon.text.trim();
                 },
+
                 decoration: InputDecoration(
                   labelText: '비밀번호',
                   hintText: '비밀번호를 입력해주세요',
@@ -161,6 +165,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 onChanged: (v){
                   us.number.value = _phoneCon.text.trim();
                 },
+
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(13),
                   FilteringTextInputFormatter.digitsOnly,
@@ -181,6 +186,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
+
                   suffixIcon: ElevatedButton(onPressed: () async {
                     //휴대폰 인증번호 보내기
                      _auth.verifyPhoneNumber(
@@ -245,6 +251,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                     },
                     child: Text('인증번호 확인'),
                   )
+
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -255,6 +262,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 onChanged: (v){
                   us.name.value = _nameCon.text.trim();
                 },
+
                 decoration: InputDecoration(
                   labelText: '이름',
                   hintText: '이름을 입력해주세요',
@@ -282,6 +290,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   us.month.value = _birthCon.text.split('/')[1];
                   us.day.value = _birthCon.text.split('/')[2];
                 },
+
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   FilteringTextInputFormatter.digitsOnly,
@@ -304,6 +313,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
+
               ),
               SizedBox(
                 height: 40,
