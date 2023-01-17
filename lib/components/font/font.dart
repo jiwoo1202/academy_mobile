@@ -9,6 +9,10 @@ const TextStyle f24w700 = TextStyle(
     fontSize: 24, height: 1.5, color: Colors.black, fontWeight: FontWeight.w700, fontFamily: 'SpoqaHanSansNeo');
 
 ///w500
+
+
+const TextStyle f32w500 = TextStyle(
+    fontSize: 32, height: 1.5, color: Colors.black, fontWeight: FontWeight.w500, fontFamily: 'SpoqaHanSansNeo');
 const TextStyle f24w500 = TextStyle(
     fontSize: 24, height: 1.5, color: Colors.black, fontWeight: FontWeight.w500, fontFamily: 'SpoqaHanSansNeo');
 const TextStyle f20w500 = TextStyle(

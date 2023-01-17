@@ -346,7 +346,7 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MainButton(
                   onPressed: () async {
-                    await userGet('w3yMrDPlPZQr1j92hrS9');
+                    await userGet('SIg3OP2qqovlBZROIaRr');
                     switch (_nestedTabController.index) {
 
                       case 0:
@@ -432,7 +432,7 @@ class _BottomNavigatorState extends State<BottomNavigator> with TickerProviderSt
   @override
   void initState() {
     super.initState();
-    _widgetOptions = [MainScreen(), MypageScreen()];
+    _widgetOptions = [MainScreen(), MyPageScreen()];
     _bottomTabController = TabController(length: 2, vsync: this);
     // _bottomTabController.animateTo(0);
   }

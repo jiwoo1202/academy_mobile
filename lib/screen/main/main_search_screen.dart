@@ -58,7 +58,7 @@ class _MainSearchScreenState extends State<MainSearchScreen> {
                               fontSize: 14,
                               fontFamily: 'NotoSansKr')),
                       SvgPicture.asset(
-                        'assets/icon/search_drug_icon.svg',
+                        'assets/icon/search_icon.svg',
                         fit: BoxFit.fill,
                         width: 24,
                         height: 24,
@@ -75,31 +75,6 @@ class _MainSearchScreenState extends State<MainSearchScreen> {
                     setState(() {
                       _isLoading = true;
                     });
-                    // var url =
-                    //     'http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnDtlInq01';
-                    // url +=
-                    // '?serviceKey=xrs4Sy2ofXtl0sdlhAXrMqesjtfXJ%2F7y%2BNjADRfhMkkNjENWNSw6Bmw6yFEIX3vRcWaUp8tseJdh0STV4vRRyA%3D%3D';
-                    // url += '&item_name=' + value;
-                    // url += '&numOfRows=100';
-                    // url += '&type=json';
-                    //
-                    // var res = await http.get(Uri.parse(url));
-                    // var resJson = json.decode(res.body);
-                    // var items = resJson['body']['items'];
-                    // lstResultItem = [];
-                    // if (items != null) {
-                    //   for (int i = 0; i < items.length; i++) {
-                    //     var item = items[i];
-                    //     String itemName = item['ITEM_NAME'].split('(')[0];
-                    //     String company = item['ENTP_NAME'];
-                    //     // String content = item['TOTAL_CONTENT'];
-                    //     lstResultItem
-                    //         .add(createDrugItem(context, itemName + ' ', company));
-                    //   }
-                    // }
-                    // setState(() {
-                    //   _isLoading = false;
-                    // });
                   }
                 });
               }),
@@ -230,12 +205,7 @@ class DrugSearch extends SearchDelegate {
         onPressed: () {
           close(context, '');
         },
-        icon: SvgPicture.asset(
-          'assets/icon/search_drug_logo.svg',
-          fit: BoxFit.fill,
-          width: 24,
-          height: 24,
-        ));
+        icon: Icon(Icons.arrow_back_ios,color: Colors.black,));
   }
 
   // 검색어 입력 시 하위 검색 결과
@@ -341,7 +311,7 @@ class DrugSearch extends SearchDelegate {
               padding: EdgeInsets.symmetric(horizontal: 16),
               width: MediaQuery.of(context).size.width * 0.9,
               height: 40,
-              child: Text(matchQuery.length > 0 ? '최근 검색한 약' : '최근 검색한 약이 없습니다',
+              child: Text(matchQuery.length > 0 ? '최근 검색한 선생님' : '최근 검색한 선생님이 없습니다',
                   style: TextStyle(
                       fontSize: 14,
                       fontFamily: 'NotoSansKr',

@@ -13,6 +13,8 @@ class TeacherScreen extends StatefulWidget {
 }
 
 class _TeacherScreenState extends State<TeacherScreen> {
+  bool _isOpened = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(width: Get.width, height: Get.height,
@@ -72,8 +74,8 @@ class _TeacherScreenState extends State<TeacherScreen> {
           ),
           SizedBox(height: 40,),
           //조건 비어있으면 Text or 카드 있으면 카드 ListView 부르기
-          false ?
-          Text('선생님 이름 혹은\n코드를 검색해주세요', style: TextStyle(fontSize: 20),):
+          // false ?
+          // Text('선생님 이름 혹은\n코드를 검색해주세요', style: TextStyle(fontSize: 20),):
           ListView.builder(
             itemCount: 3,
             shrinkWrap: true,
@@ -81,7 +83,17 @@ class _TeacherScreenState extends State<TeacherScreen> {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  MainTile(),
+                  MainTile(
+                    isOpened: _isOpened,
+                    isStudent: false,
+                    subject: '사회',
+                    switchOnTap: (){
+                      _isOpened = !_isOpened;
+                      setState(() {
+
+                      });
+                    },
+                  ),
                   SizedBox(height: 30,),
                 ],
               );

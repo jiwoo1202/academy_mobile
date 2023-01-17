@@ -24,6 +24,8 @@ class _TestMainScreenState extends State<TestMainScreen> {
   int pages = 0;
   int indexPage = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ScrollController _scrollController = ScrollController();
+
   List<String> number = ['1', '2', '3', '4', '5'];
   List<String> _answer = [
     '',
@@ -108,7 +110,9 @@ class _TestMainScreenState extends State<TestMainScreen> {
                               ));
                         }).toList(),
                       )),
-                  const SizedBox(height: 12,),
+                  const SizedBox(
+                    height: 12,
+                  ),
                 ],
               );
             },
@@ -117,20 +121,28 @@ class _TestMainScreenState extends State<TestMainScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          showComponentDialog(context, '업로드하시겠습니까?', () async {
+          showComponentDialog(context, '제출하시겠습니까?', () async {
             ts.answer.value = _answer;
-            await firebaseTestUpload();
             Get.back();
-            Get.to(() => TestCheckScreen());
+            await firebaseTestUpload();
           });
         },
         icon: Icon(Icons.check),
-        label: Text('제출하기',style: f16Whitew500,),
+        label: Text(
+          '제출하기',
+          style: f16Whitew500,
+        ),
       ),
       appBar: AppBar(
         title: Text(
           '문제',
           style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+        flexibleSpace: GestureDetector(
+          onTap: (){
+            controller.setPage(0);
+            print('hi');
+          },
         ),
         centerTitle: true,
         backgroundColor: Colors.orangeAccent,
@@ -169,5 +181,4 @@ class _TestMainScreenState extends State<TestMainScreen> {
       ),
     );
   }
-
 }

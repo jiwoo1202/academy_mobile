@@ -35,27 +35,26 @@ Future<void> firebaseUserUpdate(String docId, String changeKey, String changeVal
   }
 }
 
-Future<void> firebaseUserCreate(String email, String group,
-    String id, String name, String phoneNumber, String pw,String year,String month,String day, String temp1, String temp2,
-    String userType) async {
+Future<void> firebaseUserCreate() async {
+  final us = Get.put(UserState());
   try {
     final CollectionReference ref = FirebaseFirestore.instance.collection('user');
     User users = User(
       createDate: '${DateTime.now()}',
-      day: day,
+      day: '',
       docId: '',
-      email : email,
-      group : group,
-      id : id,
-      month : month,
-      name: name,
-      phoneNumber : phoneNumber,
-      pw: pw,
-      temp1: temp1,
-      temp2: temp2,
+      email : '',
+      group : 'group',
+      id : '1234',
+      month : 'month',
+      name: 'name',
+      phoneNumber : 'phoneNumber',
+      pw: '1234',
+      temp1: 'temp1',
+      temp2: 'temp2',
       token: '',
-      userType: userType,
-      year: year,
+      userType: '선생님',
+      year: 'year',
     );
     await ref.add(users.toMap()).then((doc) async {
       DocumentReference userDocRef = FirebaseFirestore.instance.collection('user').doc(doc.id);

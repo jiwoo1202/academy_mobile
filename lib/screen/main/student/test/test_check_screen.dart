@@ -7,6 +7,7 @@ import '../../../../provider/test_state.dart';
 
 
 class TestCheckScreen extends StatefulWidget {
+  // final String docId;
   const TestCheckScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,8 +22,11 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
+
+      final ts = Get.put(TestState());
+      print('doc id 123 : ${ts.testDocId.value}');
       await firebaseAnswerGet();
-      await firebaseQuestionGet();
+      await firebaseSingleQuestionGet(ts.testDocId.value);
       _score();
       setState(() {
         _isLoading = false;
@@ -36,6 +40,15 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     final ts = Get.put(TestState());
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('내 점수 확인'),
+        backgroundColor: Colors.lightGreen,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
+      ),
       body: _isLoading
           ? Container()
           : SingleChildScrollView(
@@ -52,7 +65,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                         children: [
                           SizedBox(height: 20,),
                           Text(
-                            '${index + 1}번 문제(내 답 : ${ts.myAnswer[0]['answer'][index]})',
+                            '${index + 1}번 문제(내 답 : ${ts.mySingleAnswer[0]['answer'][index]})',
                             style: f20w500,
                           ),
                           Obx(() => Container(
@@ -65,10 +78,10 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                                     child: Center(
                                       child: Text(
                                         '$number',
-                                        style: ts.myAnswer[0]['answer'][index] ==
+                                        style: ts.mySingleAnswer[0]['answer'][index] ==
                                                     ts.realAnswer[0]['answer']
                                                         [index] &&
-                                            ts.myAnswer[0]['answer'][index] == number
+                                            ts.mySingleAnswer[0]['answer'][index] == number
                                             ? f24Bluew700
                                             : ts.realAnswer[0]['answer']
                                                         [index] ==
@@ -99,7 +112,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     final ts = Get.put(TestState());
 
     for (int i = 0; i < 20; i++){
-      if(ts.realAnswer[0]['answer'][i] == ts.myAnswer[0]['answer'][i]){
+      if(ts.realAnswer[0]['answer'][i] == ts.mySingleAnswer[0]['answer'][i]){
         correct++;
       }
     }

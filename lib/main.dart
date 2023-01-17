@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'screen/main/main_screen.dart';
+import 'screen/main/main_search_screen.dart';
+import 'screen/mypage/score/score_check_screen.dart';
+import 'screen/mypage/setting/setting_main_screen.dart';
 import 'screen/register/register_main_screen.dart';
 
 void main() async {
@@ -31,8 +34,17 @@ class MyApp extends StatelessWidget {
         //login
         LoginMainScreen.id : (_) => LoginMainScreen(),
 
+        //search
+        MainSearchScreen.id : (_) => MainSearchScreen(),
+
         //test
         // TestMainScreen.id : (_) => TestMainScreen(),
+
+        //score
+        ScoreCheckScreen.id : (_) => ScoreCheckScreen(),
+
+        //setting
+        SettingMainScreen.id : (_) => SettingMainScreen(),
 
         //main screen
         MainScreen.id : (_) => MainScreen(),
