@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:academy/firebase/firebase_answer.dart';
+import 'package:academy/provider/answer_state.dart';
 import 'package:academy/provider/test_state.dart';
+import 'package:academy/util/loading.dart';
 import 'package:get/get.dart';
 
 import 'package:academy/components/dialog/showAlertDialog.dart';
@@ -12,7 +15,6 @@ import 'test_check_screen.dart';
 
 class TestMainScreen extends StatefulWidget {
   final File file;
-
   const TestMainScreen({Key? key, required this.file}) : super(key: key);
 
   @override
@@ -20,71 +22,52 @@ class TestMainScreen extends StatefulWidget {
 }
 
 class _TestMainScreenState extends State<TestMainScreen> {
+  bool isLoading = true;
+  final as = Get.put(AnswerState());
   late PDFViewController controller;
   int pages = 0;
   int indexPage = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ScrollController _scrollController = ScrollController();
-
   List<String> number = ['1', '2', '3', '4', '5'];
-  List<String> _answer = [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    ''
-  ];
-
-  // String _n1 = '';
-  // String _n2 = '';
-  // String _n3 = '';
-  // String _n4 = '';
-  // String _n5 = '';
-  // String _n6 = '';
-  // String _n7 = '';
-  // String _n8 = '';
-  // String _n9 = '';
-  // String _n10 = '';
-
+  List<String> _answer = [];
+  // doc('test')/ answer에 리스트 만드는 함수
+    void addNumber() async{
+    for(int i=0;i<as.answerlength.length;i++) {
+      _answer.add('');
+    }
+  }
   @override
   void initState() {
+      Future.delayed(Duration.zero,()async{
+     addNumber();
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final ts = Get.put(TestState());
-
+    final as = Get.put(AnswerState());
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: Drawer(
-        elevation: 16.0,
-        child: Padding(
+        endDrawer: isLoading?LoadingBodyScreen():Drawer(
+         elevation: 16.0,
+         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 20,
+            itemCount: as.answerlength.length,
             itemBuilder: (_, index) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${index + 1}번 문제', style: f18w500),
+                  isLoading?LoadingBodyScreen():
                   Container(
                       height: 40,
                       child: ListView(
@@ -122,6 +105,7 @@ class _TestMainScreenState extends State<TestMainScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           showComponentDialog(context, '제출하시겠습니까?', () async {
+            // answerListAdd('SIg3OP2qqovlBZROIaRr');
             ts.answer.value = _answer;
             Get.back();
             await firebaseTestUpload();
@@ -181,4 +165,5 @@ class _TestMainScreenState extends State<TestMainScreen> {
       ),
     );
   }
+
 }

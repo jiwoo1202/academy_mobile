@@ -300,7 +300,7 @@ showConfirmTapDialog(BuildContext context, String title, VoidCallback onTap) {
 // }
 
 showPasswordDialog(
-    BuildContext context, String title, VoidCallback confirmTap) {
+    BuildContext context, String title, VoidCallback confirmTap,TextEditingController pwController) {
   // show the dialog
   showDialog(
       context: context,
@@ -323,6 +323,7 @@ showPasswordDialog(
                       height: 20,
                     ),
                     TextField(
+                      controller: pwController,
                       decoration: InputDecoration(
                         hintText: '비밀번호를 입력해주세요',
                         hintStyle: TextStyle(color: Colors.grey),

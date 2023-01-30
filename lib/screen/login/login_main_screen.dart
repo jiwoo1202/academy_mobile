@@ -1,17 +1,27 @@
 
+import 'package:academy/screen/community/community_main_screen.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../api/pdf/pdf_api.dart';
 import '../../components/button/main_button.dart';
+import '../../components/controllers/firebase_cloud_messaging.dart';
+import '../../components/controllers/local_notification_setting.dart';
+import '../../components/controllers/notification_controller.dart';
 import '../../components/font/font.dart';
 import '../../firebase/firebase_user.dart';
 import '../../model/user.dart';
 import '../../provider/user_state.dart';
-import '../main_screen.dart';
+import '../community/story/story_detail_screen.dart';
+import '../community/story/story_main_screen.dart';
+import '../main/main_screen.dart';
+import '../mypage/mypage_screen.dart';
 import '../register/register_main_screen.dart';
-import '../student/test/test_main_screen.dart';
 class LoginMainScreen extends StatefulWidget {
   static final String id = '/login_main';
 
@@ -30,14 +40,45 @@ class _LoginMainScreenState extends State<LoginMainScreen>
   TextEditingController _teacherPwController = TextEditingController();
   bool _obscureText = false;
   bool _obscureText2 = false;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   
   List _userList = [];
   @override
   void initState() {
     _nestedTabController = TabController(length: 2, vsync: this);
 
+    LocalNotifyCation().initializeNotification();
+    _requestPermissions();
+    print('init 에 몇 번 들어오니????');
+
+    ///Fcm
+    FCM().setNotifications();
+
+    // AwesomeNotifications().setListeners(
+    //     onActionReceivedMethod:         NotificationController.onActionReceivedMethod,
+    //     onNotificationCreatedMethod:    NotificationController.onNotificationCreatedMethod,
+    //     onNotificationDisplayedMethod:  NotificationController.onNotificationDisplayedMethod,
+    //     onDismissActionReceivedMethod:  NotificationController.onDismissActionReceivedMethod
+    // );
+    //
+    // AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    //   if(!isAllowed){
+    //     AwesomeNotifications().requestPermissionToSendNotifications();
+    //   }
+    // });
+
     userGet('YaEDhOV20pKDnAz69ixf');
     super.initState();
+  }
+
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   @override
@@ -349,32 +390,18 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                   onPressed: () async {
                     switch (_nestedTabController.index) {
                       case 0:
-                        print('학생 로그인');
-                        CollectionReference ref = FirebaseFirestore.instance.collection('user');
-                        QuerySnapshot snapshot = await ref.where('id',isEqualTo: _studentIdController.text).get();
-                        final data = snapshot.docs.map((doc) => doc.data()).toList();
-                        print(data);
-                        _userList = data;
-                        if(_userList[0]['id']==_studentIdController.text&&_userList[0]['pw']==_studentPwController.text){
-                          print('로그인성공');
-                        }else{
-                          print('로그인 실패');
-                        }
 
-                        //맞으면 로그 뜨게 // 학생/ 둘다
-
-                        // us.number.value = _studentIdController.text;
-                        // final url =
-                        //     'https://firebasestorage.googleapis.com/v0/b/miocr-82323.appspot.com/o/test.pdf?alt=media&token=0fd055a8-aa9d-41d8-970c-1c882ed6d5dc';
-                        // final file = await PDFApi.loadNetwork(url);
-                        // // Get.to(()=>TestMainScreen(file: file));
-                        // print('go to student');
+                        await userGet('SIg3OP2qqovlBZROIaRr');
+                        Get.toNamed(BottomNavigator.id);
+                        // Get.toNamed(StoryMainScreen.id);
                         break;
                       case 1:
                         // us.name.value = 'i am teacher';
                         // Get.toNamed(MainScreen.id);
 
-                        print('선생로그인');
+                        print('선생님 로그인');
+                        await userGet('N5mGm8g9a9vZWvAqh0Wc');
+                        Get.toNamed(BottomNavigator.id);
 
                         break;
                     }
@@ -416,6 +443,80 @@ class _LoginMainScreenState extends State<LoginMainScreen>
                           textAlign: TextAlign.center,
                         ),
                       ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () async {
+
+                            FirebaseMessaging.instance.getToken().then((value) {
+                              String? token = value;
+                              print('token : ${token}');
+                            });
+
+                            var androidPlatformChannelSpecifics = new AndroidNotificationDetails('ClickSoundId', 'ClickSoundChannel',
+                                channelDescription: 'Click Sound Description', importance: Importance.max, priority: Priority.high);
+
+                            var iOSPlatformChannelSpecifics = DarwinNotificationDetails( categoryIdentifier: 'ClickSoundId',);
+                            var platformChannelSpecifics =
+                            new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+                            await flutterLocalNotificationsPlugin.show(
+                              0,
+                              'title',
+                              'body',
+                              platformChannelSpecifics,
+                              payload: 'Default_sound',
+                            );
+
+                            // CollectionReference ref = FirebaseFirestore.instance.collection('user');
+                            // QuerySnapshot snapshot = await ref
+                            //     .where('phoneNumber', isEqualTo: '01081383877').get();
+                            // final allData = snapshot.docs.map((doc) => doc.data()).toList();
+                            // List _checkUser = allData;
+                            // FcmCommunityComment().sendMessage(
+                            //     userToken: 'fkmYnOzmikNcr4jqVaU7g4:APA91bExwhC1yk2oalxJan-_OypPUAj1-k5DLxWQ8NonqXMlsvClaWcY4ir0SG0LBEzkoORdnHrFtUrJIgMcpeWaWlDxQv0k9By9NfBDqrT6qDda7Q0Q2hYazsrtBZeP2iarxarKm0Yn',
+                            //     title: '클릭사운드',
+                            //     which:'job',
+                            //     docId: '',
+                            //     body: '올려주신 피드백에 답글이 달렸습니다!');
+
+
+                            // AwesomeNotifications().createNotification(
+                            //     content: NotificationContent(
+                            //         id: 0,
+                            //         channelKey: 'basic_channel',
+                            //         title: 'Simple Notification',
+                            //         body: 'Simple body',
+                            //         actionType: ActionType.Default
+                            //     ),
+                            //   actionButtons: <NotificationActionButton>[
+                            //     // NotificationActionButton(key: 'accept', label: 'Accept'),
+                            //     // NotificationActionButton(key: 'reject', label: 'Reject'),
+                            //     // NotificationActionButton(key: '11', label: '11'),
+                            //     NotificationActionButton(
+                            //         key: 'REPLY',
+                            //         label: 'Reply Message',
+                            //         requireInputText: true,
+                            //         actionType: ActionType.SilentAction
+                            //     ),
+
+                                // NotificationActionButton(
+                                //     key: 'DISMISS',
+                                //     label: 'Dismiss',
+                                //     actionType: ActionType.DismissAction,
+                                //     isDangerousOption: true)
+                            //   ],
+                            // );
+                          },
+                          child: Text(
+                            'tab',
+                            style: f14Greyw500,
+                            textAlign: TextAlign.center,
+                          )),
+                    ),
+                    VerticalDivider(
+                      color: const Color(0xffE9E9E9),
+                      thickness: 0.5,
                     ),
                   ],
                 ),
@@ -470,8 +571,8 @@ class _BottomNavigatorState extends State<BottomNavigator> with TickerProviderSt
   @override
   void initState() {
     super.initState();
-    _widgetOptions = [MainScreen(), MyPageScreen()];
-    _bottomTabController = TabController(length: 2, vsync: this);
+    _widgetOptions = [MainScreen(), CommunityMainScreen(),MyPageScreen()];
+    _bottomTabController = TabController(length: 3, vsync: this);
     // _bottomTabController.animateTo(0);
   }
 
@@ -512,6 +613,20 @@ class _BottomNavigatorState extends State<BottomNavigator> with TickerProviderSt
             ),
             Tab(
               icon: _currentIndex == 1
+                  ? SvgPicture.asset(
+                'assets/bottom/community_click.svg',
+                width: 25,
+                height: 20,
+              )
+                  : SvgPicture.asset(
+                'assets/bottom/community_not_click.svg',
+                width: 25,
+                height: 20,
+              ),
+              text: '커뮤니티',
+            ),
+            Tab(
+              icon: _currentIndex == 2
                   ? SvgPicture.asset(
                 'assets/bottom/my_profile_click.svg',
                 width: 20,

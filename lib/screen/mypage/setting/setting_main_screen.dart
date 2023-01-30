@@ -67,7 +67,7 @@ class _SettingMainScreenState extends State<SettingMainScreen> {
               title: Text('로그아웃',style: f20w500,),
               onTap: () {
                 showComponentDialog(context, '로그아웃 하시겠습니까?', () {
-                  Get.offAll(LoginMainScreen());
+                  Get.offAll(()=>LoginMainScreen());
                 });
               },
             ),

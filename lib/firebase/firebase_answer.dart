@@ -71,3 +71,51 @@ Future<void> answerGet(String docId) async {
     print(e);
   }
 }
+
+// state가 대기인 상태만 가져오는 함수(추가)
+Future<void> getState(String state) async {
+  final as = Get.put(AnswerState());
+  CollectionReference ref = FirebaseFirestore.instance.collection('answer');
+  QuerySnapshot snapshot = await ref.where('state', isEqualTo: state).get();
+
+  final allData = snapshot.docs.map((doc) => doc.data()).toList();
+  List a = allData;
+  as.state.value = state;
+  as.stateList.value = allData;
+
+  for(int i =0;i<a.length;i++) {
+    as.getDocid.add(a[i]['docId']);
+    as.teacherList.add(a[i]['teacher']);
+    as.createList.add(a[i]['createDate']);
+  }
+}
+// answer 정답 길이 가져오는 함수(추가)
+Future<void> getAnswerLength(String docId) async{
+  final as = Get.put(AnswerState());
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('answer');
+  QuerySnapshot snapshot = await ref.where('docId', isEqualTo: docId).get();
+
+  final allData = snapshot.docs.map((doc) => doc.data()).toList();
+  List a = allData;
+  print('${a}');
+
+  as.answerlength.value= a[0]['answer'];
+  // print('11||${as.answerlength.value}');
+}
+
+// teacher 이름과 날짜 가져오는 함수(추가)
+Future<void> getNameAndDate(String docId) async{
+  final as = Get.put(AnswerState());
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('answer');
+  QuerySnapshot snapshot = await ref.where('docId', isEqualTo: docId).get();
+
+  final allData = snapshot.docs.map((doc) => doc.data()).toList();
+  List a = allData;
+  print('${a}');
+
+  as.getTeacherName.value = a[0]['teacher'];
+  as.getDate.value = a[0]['createDate'];
+  // print('11||${as.answerlength.value}');
+}

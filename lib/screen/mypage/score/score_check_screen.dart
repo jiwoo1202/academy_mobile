@@ -1,3 +1,4 @@
+import 'package:academy/provider/answer_state.dart';
 import 'package:academy/util/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,10 +58,11 @@ class _ScoreCheckScreenState extends State<ScoreCheckScreen> {
                 MainTile(
                   isOpened: true,
                   isStudent: true,
-                  subject: '사회',
-                  tName: '가나다',
+                  title: '사회',
+                  tName: '${ts.teacherNameList[index]}',
                   onTap: () async {
                     ts.testDocId.value = ts.myAnswer[index]['docId'];
+                    ts.answerDocId.value = ts.myAnswer[index]['answerDocid'];
                     Get.to(() => TestCheckScreen(
                     ));
                   },

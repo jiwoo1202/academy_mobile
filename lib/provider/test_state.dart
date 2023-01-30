@@ -8,6 +8,8 @@ class TestState extends GetxController{
   final myAnswer = [].obs;
   final mySingleAnswer = [].obs;
   // final name = ''.obs;
+  final answerDocId = ''.obs;//(추가)
+  final submitLng = [].obs;// (추가)
 
-
+  final teacherNameList = [].obs;
 }

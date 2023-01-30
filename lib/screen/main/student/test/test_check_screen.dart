@@ -1,7 +1,9 @@
 import 'package:academy/components/font/font.dart';
 import 'package:academy/firebase/firebase_test.dart';
+import 'package:academy/provider/answer_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 import '../../../../provider/test_state.dart';
 
@@ -22,10 +24,12 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-
       final ts = Get.put(TestState());
+      // final as = Get.put(AnswerState());
       print('doc id 123 : ${ts.testDocId.value}');
-      await firebaseAnswerGet();
+      print('answer doc id : ${ts.answerDocId.value}');
+      // await answerGet('fNWPBW7v8VQJ1HzKeYu5');
+      await firebaseAnswerGet(ts.answerDocId.value);
       await firebaseSingleQuestionGet(ts.testDocId.value);
       _score();
       setState(() {
@@ -38,7 +42,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   @override
   Widget build(BuildContext context) {
     final ts = Get.put(TestState());
-
+    final as = Get.put(AnswerState());
     return Scaffold(
       appBar: AppBar(
         title: Text('내 점수 확인'),
@@ -56,7 +60,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
               child: Column(
                 children: [
                   ListView.builder(
-                    itemCount: 20,
+                    itemCount: ts.realAnswer[0]['answer'].length,
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     itemBuilder: (_, index) {
@@ -100,7 +104,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       );
                     },
                   ),
-                  Text('총점 : ${((correct/20)*100).ceil()}',style: f24w500,),
+                  Text('총점 : ${((correct/ts.realAnswer[0]['answer'].length)*100).ceil()}',style: f24w500,),
                   const SizedBox(height: 80,),
                 ],
               ),
@@ -111,8 +115,9 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   void _score(){
     final ts = Get.put(TestState());
 
-    for (int i = 0; i < 20; i++){
+    for (int i = 0; i < ts.realAnswer[0]['answer'].length; i++){
       if(ts.realAnswer[0]['answer'][i] == ts.mySingleAnswer[0]['answer'][i]){
+        print('yes');
         correct++;
       }
     }

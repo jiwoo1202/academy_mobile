@@ -1,7 +1,4 @@
-
-import 'package:academy/components/font/font.dart';
 import 'package:academy/provider/user_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +7,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class RegisterMainScreen extends StatefulWidget {
   static final String id = '/register_main';
+
   const RegisterMainScreen({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +21,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
   TextEditingController _otpCon = TextEditingController();
   TextEditingController _nameCon = TextEditingController();
   TextEditingController _birthCon = TextEditingController();
+
   // TextEditingController _monthCon = TextEditingController();
   // TextEditingController _dayCon = TextEditingController();
   bool _obscureText = false;
@@ -38,10 +37,11 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
   int _doubleCheck = 0;
 
   @override
-  void initState(){
+  void initState() {
     _phoneAuth = false;
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -60,7 +60,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final us =Get.put(UserState());
+    final us = Get.put(UserState());
 
     return GestureDetector(
       onTap: () {
@@ -68,12 +68,15 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('회원가입',style: TextStyle(color: Colors.black,fontSize: 20),),
+          title: Text(
+            '회원가입',
+            style: TextStyle(color: Colors.black, fontSize: 20),
+          ),
           centerTitle: true,
           backgroundColor: Colors.orangeAccent,
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,7 +84,7 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
               // Obx(() =>Text('${us.id}',style: f16w500,)),
               TextField(
                 controller: _idCon,
-                onChanged: (v){
+                onChanged: (v) {
                   us.id.value = _idCon.text.trim();
                 },
                 decoration: InputDecoration(
@@ -103,13 +106,14 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                 keyboardType: TextInputType.text,
               ),
 
-              const SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               TextField(
                 controller: _pwCon,
-                onChanged: (v){
+                onChanged: (v) {
                   us.pw.value = _pwCon.text.trim();
                 },
-
                 decoration: InputDecoration(
                   labelText: '비밀번호',
                   hintText: '비밀번호를 입력해주세요',
@@ -127,92 +131,99 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   ),
                   suffixIcon: !_obscureText
                       ? IconButton(
-                    icon: Icon(
-                      Icons.visibility_off_outlined,
-                      size: 20,
-                    ),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    color: Colors.black,
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  )
+                          icon: Icon(
+                            Icons.visibility_off_outlined,
+                            size: 20,
+                          ),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          color: Colors.black,
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        )
                       : IconButton(
-                    icon: Icon(
-                      Icons.visibility_outlined,
-                      size: 20,
-                    ),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    color: Colors.black,
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  ),
+                          icon: Icon(
+                            Icons.visibility_outlined,
+                            size: 20,
+                          ),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          color: Colors.black,
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
                 ),
                 obscureText: !_obscureText,
                 keyboardType: TextInputType.text,
               ),
 
-              const SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               TextField(
                 controller: _phoneCon,
-                onChanged: (v){
+                onChanged: (v) {
                   us.number.value = _phoneCon.text.trim();
                 },
-
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(13),
                   FilteringTextInputFormatter.digitsOnly,
                   maskFormatter
                 ],
                 decoration: InputDecoration(
-                  labelText: '휴대폰 번호',
-                  hintText: '휴대폰 번호를 입력해주세요',
-                  labelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-
-                  suffixIcon: ElevatedButton(onPressed: () async {
-                    //휴대폰 인증번호 보내기
-                     _auth.verifyPhoneNumber(
-                      phoneNumber: '+82${_phoneCon.text}',
-                        verificationCompleted: (PhoneAuthCredential credential)async{
-                        await _auth.signInWithCredential(credential).then((value) => print('success'));
-                        },
-                        verificationFailed: (verificationFalied) async{
-                        print('실패했습니다.');
-                        print('${verificationFalied.message}');
-                        },
-                        codeSent: (String verifiationId, int? resendingToken) async{
-                        print('코드를 보냈습니다.');
-                        setState(() {
-                          verificationId = verifiationId;
-                        });
-                        },
-                        codeAutoRetrievalTimeout: (verificationId) async{},);
-
-                  }, child: Text('인증번호'),
-                  )
-                ),
+                    labelText: '휴대폰 번호',
+                    hintText: '휴대폰 번호를 입력해주세요',
+                    labelStyle: TextStyle(color: Colors.blueGrey),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    suffixIcon: ElevatedButton(
+                      onPressed: () async {
+                        //휴대폰 인증번호 보내기
+                        _auth.verifyPhoneNumber(
+                          phoneNumber: '+82${_phoneCon.text}',
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) async {
+                            await _auth
+                                .signInWithCredential(credential)
+                                .then((value) => print('success'));
+                          },
+                          verificationFailed: (verificationFalied) async {
+                            print('실패했습니다.');
+                            print('${verificationFalied.message}');
+                          },
+                          codeSent: (String verifiationId,
+                              int? resendingToken) async {
+                            print('코드를 보냈습니다.');
+                            setState(() {
+                              verificationId = verifiationId;
+                            });
+                          },
+                          codeAutoRetrievalTimeout: (verificationId) async {},
+                        );
+                      },
+                      child: Text('인증번호'),
+                    )),
                 keyboardType: TextInputType.number,
               ),
 
-              const SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               TextField(
                 controller: _otpCon,
                 inputFormatters: [
@@ -220,77 +231,78 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 decoration: InputDecoration(
-                  labelText: '인증번호',
-                  hintText: '인증번호를 입력해주세요',
-                  labelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  suffixIcon: ElevatedButton(
-                    onPressed: (){
-                      if(_doubleCheck ==0) {
-                        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider
-                            .credential(
-                            verificationId: verificationId,
-                            smsCode: _otpCon.text);
-                        signInWithPhoneAuthCredential(phoneAuthCredential);
-                      }else{
-                        print('2');
-                      }
-                      setState(() {
-
-                      });
-                    },
-                    child: Text('인증번호 확인'),
-                  )
-
-                ),
+                    labelText: '인증번호',
+                    hintText: '인증번호를 입력해주세요',
+                    labelStyle: TextStyle(color: Colors.blueGrey),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    suffixIcon: ElevatedButton(
+                      onPressed: () {
+                        if (_doubleCheck == 0) {
+                          PhoneAuthCredential phoneAuthCredential =
+                              PhoneAuthProvider.credential(
+                                  verificationId: verificationId,
+                                  smsCode: _otpCon.text);
+                          signInWithPhoneAuthCredential(phoneAuthCredential);
+                        } else {
+                          print('2');
+                        }
+                        setState(() {});
+                      },
+                      child: Text('인증번호 확인'),
+                    )),
                 keyboardType: TextInputType.number,
               ),
-
-              const SizedBox(height: 12,),
-              TextField(
-                controller: _nameCon,
-                onChanged: (v){
-                  us.name.value = _nameCon.text.trim();
-                },
-
-                decoration: InputDecoration(
-                  labelText: '이름',
-                  hintText: '이름을 입력해주세요',
-                  labelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                ),
-                keyboardType: TextInputType.text
+              _phoneAuth == true
+                  ? Container(
+                      child: Text('인증성공입니다.'),
+                    )
+                  : Text('인증실패입니다.'),
+              const SizedBox(
+                height: 12,
               ),
+              TextField(
+                  controller: _nameCon,
+                  onChanged: (v) {
+                    us.name.value = _nameCon.text.trim();
+                  },
+                  decoration: InputDecoration(
+                    labelText: '이름',
+                    hintText: '이름을 입력해주세요',
+                    labelStyle: TextStyle(color: Colors.blueGrey),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                  ),
+                  keyboardType: TextInputType.text),
 
-              const SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               TextField(
                 controller: _birthCon,
-                onChanged: (v){
+                onChanged: (v) {
                   us.year.value = _birthCon.text.split('/')[0];
                   us.month.value = _birthCon.text.split('/')[1];
                   us.day.value = _birthCon.text.split('/')[2];
                 },
-
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   FilteringTextInputFormatter.digitsOnly,
@@ -313,80 +325,97 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-
               ),
               SizedBox(
                 height: 40,
               ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    width: 1.0
-                  )
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(width: 1.0)),
                 child: DropdownButton<String>(
                   isExpanded: true,
                   value: selectedValue,
-                  hint: Text(
-                    '타입을 선택해주세요'
-                  ),
-                  onChanged: (newValue){
+                  hint: Text('타입을 선택해주세요'),
+                  onChanged: (newValue) {
                     setState(() {
                       selectedValue = newValue;
                       us.userType.value = selectedValue!;
                     });
                   },
-                    items: <String>['학생', '선생'].map<DropdownMenuItem<String>>((String value) {
-                      // ignore: missing_required_param
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                            value,
-                        ),
-                      );
-                    }).toList(),
+                  items: <String>['학생', '선생']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    // ignore: missing_required_param
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
               SizedBox(
                 height: 12,
               ),
-              ElevatedButton(onPressed: (){
-
-                if(_idCon.text.trim().isEmpty==true ||_pwCon.text.trim().isEmpty ==true||_phoneCon.text.trim().isEmpty==true||_nameCon.text.trim().isEmpty==true||_birthCon.text.trim().isEmpty==true){
-                  showDialog(
-                      context: context,
-                      builder:(BuildContext context)=>AlertDialog(
-                        content: Text('모든 칸에 입력해주세요'),
-                        actions: [
-                          ElevatedButton(
-                              onPressed:(){
-                                Navigator.of(context).pop();
-                              } , child: Text('네'))
-                        ],
-                      ));
-                }
-                else(
-                us.addUser(
-                    us.id.value,
-                    us.pw.value,
-                    us.number.value,
-                    us.name.value,
-                    us.year.value,
-                    us.month.value,
-                    us.day.value,
-                    us.userType.value));
-              }, child: Text('회원가입 완료'))
+              ElevatedButton(
+                  onPressed: () {
+                    if (_idCon.text.trim().isEmpty == true ||
+                        _pwCon.text.trim().isEmpty == true ||
+                        _phoneCon.text.trim().isEmpty == true ||
+                        _nameCon.text.trim().isEmpty == true ||
+                        _birthCon.text.trim().isEmpty == true) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                content: Text('모든 칸에 입력해주세요'),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('네'))
+                                ],
+                              ));
+                    } else {
+                      us.addUser(
+                          us.id.value,
+                          us.pw.value,
+                          us.number.value,
+                          us.name.value,
+                          us.year.value,
+                          us.month.value,
+                          us.day.value,
+                          us.userType.value);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                content: Text('회원가입이 완료되었습니다.'),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('네'))
+                                ],
+                              ));
+                    }
+                    ;
+                  },
+                  child: Text('회원가입 완료'))
             ],
           ),
         ),
       ),
     );
   }
+
   //휴대폰 인증 확인
-  void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async{
+  void signInWithPhoneAuthCredential(
+      PhoneAuthCredential phoneAuthCredential) async {
     try {
-      final authCredential = await _auth.signInWithCredential(phoneAuthCredential);
+      final authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
 
       if (authCredential.user != null) {
         print('인공입니다');
@@ -405,16 +434,16 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
         // cancelTimer();
         print('인증번호 일치');
 
-    //     CollectionReference ref = FirebaseFirestore.instance.collection('fcm');
-    //     QuerySnapshot snapshot = await ref.where('1', isEqualTo: _otpCon.text).get();
-    //     final allData = snapshot.docs.map((doc) => {doc.data()}).toList();
-    //     List as = allData;
-    //     if (as.length != 0) {
-    //       FirebaseFirestore.instance
-    //           .collection('fcm')
-    //           .doc(as[0].toString().replaceAll('{', '').replaceAll('}', '').split(',')[3].split(' ')[2])
-    //           .delete();
-    //     }
+        //     CollectionReference ref = FirebaseFirestore.instance.collection('fcm');
+        //     QuerySnapshot snapshot = await ref.where('1', isEqualTo: _otpCon.text).get();
+        //     final allData = snapshot.docs.map((doc) => {doc.data()}).toList();
+        //     List as = allData;
+        //     if (as.length != 0) {
+        //       FirebaseFirestore.instance
+        //           .collection('fcm')
+        //           .doc(as[0].toString().replaceAll('{', '').replaceAll('}', '').split(',')[3].split(' ')[2])
+        //           .delete();
+        //     }
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -425,5 +454,4 @@ class _RegisterMainScreenState extends State<RegisterMainScreen> {
       print('Error Log Phone Auth : ');
     }
   }
-
 }

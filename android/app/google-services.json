@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "9676366788",
+    "project_id": "academy-957f7",
+    "storage_bucket": "academy-957f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9676366788:android:33d1036138c16876d47a91",
+        "android_client_info": {
+          "package_name": "com.academy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9676366788-4bhqicifbf9665tftotf16j1t91svcco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7zeTSSkLjfpQmQJ1IAH8yUHHj2aBi4No"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9676366788-4bhqicifbf9665tftotf16j1t91svcco.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9676366788-j3odcu81vgcm5uuja4gldf37nf79old7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.academy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

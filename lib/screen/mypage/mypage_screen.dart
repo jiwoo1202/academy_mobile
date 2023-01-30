@@ -1,4 +1,6 @@
 import 'package:academy/components/font/font.dart';
+import 'package:academy/provider/test_state.dart';
+import 'package:academy/screen/mypage/blockPage.dart';
 import 'package:academy/screen/mypage/setting/setting_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ class MyPageScreen extends StatefulWidget {
 }
 
 class _MyPageScreenState extends State<MyPageScreen> {
+  final ts = Get.put(TestState());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +44,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
              ),
              title: Text('내 점수 확인',style: f20w500,),
              onTap: () {
+               ts.teacherNameList.value = [];
                Get.toNamed(ScoreCheckScreen.id);
                print('점수');
              },
@@ -67,6 +71,19 @@ class _MyPageScreenState extends State<MyPageScreen> {
              ),
              title: Text('Q&A',style: f20w500,),
              onTap: () {
+               print('QNA');
+             },
+             trailing: Icon(Icons.add,  size: 40,),
+           ),
+           ListTile(
+             leading: Icon(
+               Icons.question_answer,
+               color: Colors.grey[850],
+               size: 40,
+             ),
+             title: Text('차단 한 유저',style: f20w500,),
+             onTap: () {
+               Get.toNamed(BlockPage.id);
                print('QNA');
              },
              trailing: Icon(Icons.add,  size: 40,),

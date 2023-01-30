@@ -7,6 +7,7 @@ import '../switch/switch_button.dart';
 class MainTile extends StatelessWidget {
   final tName;
   final tCreateDate;
+  final String title;
   final String subject;
   final bool isOpened;
   final bool isStudent;
@@ -18,7 +19,11 @@ class MainTile extends StatelessWidget {
       this.tName: '박보검',
       this.tCreateDate: '2023-01-16 12:30',
       required this.isOpened,
-      required this.switchOnTap, required this.isStudent, required this.subject, this.onTap})
+      required this.switchOnTap,
+      required this.isStudent,
+      required this.title,
+      this.onTap,
+      this.subject: ''})
       : super(key: key);
 
   @override
@@ -46,10 +51,23 @@ class MainTile extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: f20w500,
                   ),
-                  !isStudent ? SwitchButton(
-                    value: isOpened,
-                    onTap: switchOnTap,
-                  ) : Container(),
+                  Spacer(),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: f20w500,
+                  ),
+                  !isStudent
+                      ? SizedBox(
+                          width: 20,
+                        )
+                      : Container(),
+                  !isStudent
+                      ? SwitchButton(
+                          value: isOpened,
+                          onTap: switchOnTap,
+                        )
+                      : Container(),
                   Text(
                     subject,
                     textAlign: TextAlign.center,
@@ -58,17 +76,21 @@ class MainTile extends StatelessWidget {
                 ],
               ),
             ),
-            isStudent ? Divider(
-              height: 1,
-              color: Colors.black,
-            ) : Container(),
-            isStudent ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '시험 보기',
-                style: f20w500,
-              ),
-            ): Container()
+            isStudent
+                ? Divider(
+                    height: 1,
+                    color: Colors.black,
+                  )
+                : Container(),
+            isStudent
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '시험 보기',
+                      style: f20w500,
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

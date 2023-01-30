@@ -9,6 +9,9 @@ Future<void> userGet(String docId)async{
   CollectionReference ref = FirebaseFirestore.instance.collection('user');
   try {
     QuerySnapshot snapshot = await ref.where('docId', isEqualTo: docId).get();
+    final allData = snapshot.docs.map((doc) => doc.data()).toList();
+    print('alldata : ${allData.length}');
+
     controller.userList.value = snapshot.docs.map<User>((doc) {
       return User.fromDocument(doc);
     }).toList();
