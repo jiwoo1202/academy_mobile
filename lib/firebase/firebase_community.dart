@@ -40,7 +40,7 @@ Future<void> blockGet(String id)async{
   try {
     QuerySnapshot snapshot = await ref.where('blockId', isEqualTo: id).get();
     cs.comBlock.value = snapshot.docs.map((doc) => doc.data()).toList();
-    print('${cs.comBlock.value}');
+
 
   } catch (e) {
     print(e);

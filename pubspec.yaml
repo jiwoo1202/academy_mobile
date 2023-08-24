@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+5
 
 environment:
   sdk: '>=2.18.1 <3.0.0'
@@ -35,35 +35,47 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
-    #  change_app_package_name: ^1.1.0
   cloud_firestore: ^4.3.1
+  extended_image: ^6.3.4
+  file_picker: ^5.2.5
+  firebase_auth: ^4.2.6
   firebase_core: ^2.4.1
   firebase_messaging: ^14.2.1
   firebase_storage: ^11.0.10
+  flutter_inappwebview: ^5.7.2+3
   flutter_local_notifications: ^13.0.0
-  #  awesome_notifications_fcm: ^0.7.4+1
-  #  awesome_notifications: ^0.7.4+1
   flutter_pdfview: ^1.2.5
   flutter_svg: ^1.1.6
+  flutter_time_picker_spinner: ^2.0.0
+  flutter_native_splash: ^2.2.19
+  animated_splash_screen: ^1.3.0
+  image_picker: ^0.8.6
   loading_animation_widget: ^1.1.0+5
   mask_text_input_formatter: ^2.4.0
   path_provider: ^2.0.11
-  file_picker: ^5.2.5
-  firebase_auth: ^4.2.5
-  extended_image: ^6.3.4
-  carousel_slider: ^4.2.1
-  image_picker: ^0.8.6
+  percent_indicator: ^4.2.2
+  smooth_page_indicator: ^1.0.0+2
   toggle_switch: ^2.0.1
-  flutter_time_picker_spinner: ^2.0.0
-  flutter_native_splash: ^2.2.17
-
+  flutter_secure_storage: ^6.0.0
+  intl: ^0.17.0
   get: ^4.6.5
-
+  encrypt: ^5.0.1
+  qr_flutter: ^4.0.0
+  qr_code_scanner: ^1.0.1
+  audioplayers: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_native_splash:
+  color: "#A4ABEC"
+  android: true
+  ios: true
+  image: assets/academy_splash.png
+  image_dark : assets/academy_splash.png
+  fullscreen: true
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -86,7 +98,7 @@ flutter:
   assets:
     - assets/bottom/
     - assets/icon/
-
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

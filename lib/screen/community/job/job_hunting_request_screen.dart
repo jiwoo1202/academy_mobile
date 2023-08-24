@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:academy/components/font/font.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,12 +13,9 @@ import 'package:toggle_switch/toggle_switch.dart';
 import '../../../components/dialog/showAlertDialog.dart';
 import '../../../firebase/firebase_job.dart';
 import '../../../provider/job_state.dart';
+import '../../../provider/user_state.dart';
+import '../../../util/font/font.dart';
 import '../../../util/loading.dart';
-// import '../../components/dialog/showAlertDialog.dart';
-// import '../../firebase/firebase_job.dart';
-// import '../../provider/job_state.dart';
-// import '../../provider/user_state.dart';
-// import '../../util/loading.dart';
 
 class JobHuntingRequestScreen extends StatefulWidget {
   static final String id = '/job_hunting_request_screen';
@@ -74,7 +70,7 @@ class _JobHuntingRequestScreenState extends State<JobHuntingRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final js =Get.put(JobState());
-
+    final us = Get.put(UserState());
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -636,7 +632,7 @@ class _JobHuntingRequestScreenState extends State<JobHuntingRequestScreen> {
                             _firstCheck ? '협의': _pay.text,
                             payValue,
                             _title.text);//firebase 먼저 저장 후 docId 가져와
-                        await uploadFile('${js.jobDocId}','01081383877');
+                        await uploadFile('${js.jobDocId}','${us.userList[0].phoneNumber}');
                         showDialog(
                             context: context,
                             builder:(BuildContext context)=>AlertDialog(

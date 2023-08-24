@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.academy">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.academymi">
    <application
         android:label="academy"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/academy_log"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,6 +22,10 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -31,4 +37,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 </manifest>

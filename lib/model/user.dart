@@ -16,7 +16,8 @@ class User {
   String? token;
   String? userType;
   String? year;
-
+  List? isBanned;
+  String? nickName;
   User(
       {this.createDate,
         this.day,
@@ -31,14 +32,17 @@ class User {
         this.temp1,
         this.temp2,
         this.token,
+        this.isBanned,
         this.userType,
-        this.year,});
+        this.year,
+        this.nickName});
 
   User.fromMap(Map<String, dynamic> map)
       : createDate = map['createDate'],
         day = map['day'],
         docId = map['docId'],
         email = map['email'],
+        isBanned = map['isBanned'],
         group = map['group'],
         id = map['id'],
         month = map['month'],
@@ -49,7 +53,9 @@ class User {
         temp2 = map['temp2'],
         token = map['token'],
         userType = map['userType'],
-        year = map['year'];
+        year = map['year'],
+        nickName = map['nickName'];
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -58,6 +64,7 @@ class User {
       "docId": docId,
       "email" : email,
       "group" : group,
+      "isBanned" : isBanned,
       "id" : id,
       "month" : month,
       "name": name,
@@ -68,6 +75,7 @@ class User {
       "token": token,
       "userType": userType,
       "year": year,
+      "nickName":nickName
     };
   }
 
@@ -77,6 +85,7 @@ class User {
         createDate: doc['createDate'],
         day: doc['day'],
         email : doc['email'],
+      isBanned : doc['isBanned'],
         group: doc['group'],
         id : doc['id'],
         month : doc['month'],
@@ -88,6 +97,7 @@ class User {
         token: doc['token'],
         userType: doc['userType'],
         year: doc['year'],
+        nickName: doc['nickName']
     );
   }
 }

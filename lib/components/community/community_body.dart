@@ -1,21 +1,27 @@
+import 'package:academy/util/colors.dart';
 import 'package:flutter/material.dart';
 
 class CommunityBody extends StatelessWidget {
   final Widget body;
   final VoidCallback floatingTap;
   final Icon floatingIcon;
-  const CommunityBody({Key? key, required this.body, required this.floatingTap, required this.floatingIcon}) : super(key: key);
+  final double paddingSize;
+  const CommunityBody({Key? key,
+    required this.body,
+    required this.floatingTap,
+    required this.floatingIcon,
+    required this.paddingSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        padding: EdgeInsets.symmetric(horizontal: paddingSize),
         child: body,
       ),
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: FloatingActionButton(
         onPressed: floatingTap,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: nowColor,
         child: floatingIcon,
       ),
     );

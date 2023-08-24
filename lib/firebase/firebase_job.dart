@@ -27,7 +27,7 @@ Future<void> jobFullGet(String teacher)async{
   final controller = Get.put(JobState());
   CollectionReference ref = FirebaseFirestore.instance.collection('jobHunting');
   try {
-    QuerySnapshot snapshot = await ref.where('teacher', isEqualTo: teacher).get();
+    QuerySnapshot snapshot = await ref.where('teacher', isEqualTo: teacher).orderBy('createDate', descending: true).get();
     controller.userL.value = snapshot.docs.map((doc) => doc.data()).toList();
 
   } catch (e) {
@@ -47,8 +47,8 @@ Future<void> notjobFullGet(String teacher)async{
     List a = allData1;
 
     CollectionReference ref2 = FirebaseFirestore.instance.collection('block');
-    QuerySnapshot snapshot2 = await ref2.where('blockId', isEqualTo: us.userList[0].phoneNumber)
-        .where('collectionName', isEqualTo: 'story').where('commentField', isEqualTo: 'true').get();
+    QuerySnapshot snapshot2 = await ref2.where('blockId', isEqualTo: teacher)
+        .where('collectionName', isEqualTo: 'jobHunting').where('commentField', isEqualTo: 'false').get();
     final allData = snapshot2.docs.map((doc) => doc.data()).toList();
     print('55555 : ${allData.length}');
     List ls = allData;
@@ -67,7 +67,7 @@ Future<void> notjobFullGet(String teacher)async{
         ls3.add(a[i]);
       }
     }
-    js.notuserL.value= ls3;
+    js.notuserL.value= a; //ls3;
     print('차단한BlockList: ${js.notuserL.value} ');
 
 
@@ -96,6 +96,7 @@ Future<void> firebaseJobUpdate(String docId, String changeKey, String changeValu
 Future<void> firebaseJobCreate(String age, String ageValue, String body, String closeH, String closeM, String gender,
     String hasImage, String openH, String openM, String pay, String payValue, String title) async {
   final js = Get.put(JobState());
+  final us = Get.put(UserState());
   try {
     final CollectionReference ref = FirebaseFirestore.instance.collection('jobHunting');
     await ref.add({
@@ -111,7 +112,7 @@ Future<void> firebaseJobCreate(String age, String ageValue, String body, String 
       'openM' : openM,
       'pay' : pay,
       'payValue' : payValue,
-      'teacher' : '01081383877',
+      'teacher' : '${us.userList[0].phoneNumber}',
       'title' : title,
       'createDate' : '${DateTime.now()}',
     }).then((doc) async {
@@ -126,9 +127,10 @@ Future<void> firebaseJobCreate(String age, String ageValue, String body, String 
 
 Future<void> communityCommentWrite (String body, String docId) async{
   final js = Get.put(JobState());
+  final us = Get.put(UserState());
   CollectionReference ref = FirebaseFirestore.instance.collection('jobHunting').doc(docId).collection('comments');
   ref.add({
-    'id' : '01081383877',
+    'id' : '${us.userList[0].phoneNumber}',
     'docId' : '',
     'body' : body,
     'status' : '게시중',
@@ -160,8 +162,8 @@ Future<List> jobBlockExceptGet(String docId) async {
   try {
     CollectionReference ref2 = FirebaseFirestore.instance.collection('block');
     QuerySnapshot snapshot2 = await ref2
-        .where('blockId', isEqualTo: us.userList[0].phoneNumber)
-        .where('collectionName', isEqualTo: 'story')
+        .where('blockId', isEqualTo: '${us.userList[0].phoneNumber}')
+        .where('collectionName', isEqualTo: 'jobHunting')
         .where('commentField', isEqualTo: 'true')
         .get();
     final allData = snapshot2.docs.map((doc) => doc.data()).toList();
@@ -188,7 +190,7 @@ Future<List> jobBlockExceptGet(String docId) async {
         ls3.add(ls2[i]);
       }
     }
-    return ls3;
+    return ls2; //ls3;
   } catch (e) {
     print(e);
   }

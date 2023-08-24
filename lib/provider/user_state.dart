@@ -16,16 +16,25 @@ class UserState extends GetxController{
   final year = ''.obs;
   final month = ''.obs;
   final day = ''.obs;
-  void increase(){
-    count.value ++;
-    update();
-  }
-  void decrease(){
-    count.value --;
-    update();
-  }
+  final nickName = ''.obs;
+  final findPassWord = ''.obs;
+  final pwCheck = ''.obs; // 비밀번호 암/복호화
+
+  final qnaTitle = ''.obs; // qna 제목
+  final qnaBody = ''.obs; // qna 내용
+  final qnaImgs = [].obs; // qna 사진
+  final getmyQna = [].obs; // 내가쓴 질문 가져옴
+
+
+  final usGetId = ''.obs; // 비밀번호찾기에서 유저 닥아이디 넣기 위해
+
+  final usipAddress = ''.obs;
+  final usinterface = ''.obs;
+  final usipType = ''.obs;
+
+
   // 회원가입
-  Future addUser(String id, String pw, String phoneNumber,String name,String year,String month, String day, String userType) async {
+  Future addUser(String id, String pw, String phoneNumber,String name,String year,String month, String day, String userType,String nickName) async {
     try{
       DocumentReference docRef = _firestore.collection("user").doc();
       User docUser = User(
@@ -38,7 +47,9 @@ class UserState extends GetxController{
           year: year,
           month: month,
           day: day,
-          userType: userType
+          userType: userType,
+          isBanned: [],
+          nickName: nickName
       );
       await docRef.set(docUser.toMap());
     }catch(e){

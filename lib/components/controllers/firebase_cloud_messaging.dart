@@ -59,11 +59,11 @@ class FCM {
             ?.createNotificationChannel(channel);
         if (message.data.containsKey('data')) {
           streamCtlr.sink.add(message.data['data']);
-          print('contains--------------3');
+
         }
         if (message.data.containsKey('notification')) {
           streamCtlr.sink.add(message.data['notification']);
-          print('contains--------------4');
+
         }
         if (message.notification != null) {
           // print('Message also contained a notification: ${message.notification}');

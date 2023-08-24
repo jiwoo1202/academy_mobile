@@ -55,7 +55,7 @@ class _PdfCheckScreenState extends State<PdfCheckScreen> {
         flexibleSpace: GestureDetector(
           onTap: (){
             controller.setPage(0);
-            print('hi');
+            // print('hi');
           },
         ),
         centerTitle: true,

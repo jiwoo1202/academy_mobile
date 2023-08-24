@@ -1,20 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/community/community_body.dart';
-import '../../../components/font/font.dart';
 import '../../../components/tile/job_tile.dart';
 import '../../../firebase/firebase_job.dart';
-import '../../../provider/community_state.dart';
 import '../../../provider/job_state.dart';
-// import '../../components/community/community_body.dart';
-// import '../../components/community/community_detail.dart';
-// import '../../components/font/font.dart';
-// import '../../components/tile/job_tile.dart';
-// import '../../firebase/firebase_job.dart';
-// import '../../provider/job_state.dart';
 import '../../../provider/user_state.dart';
+import '../story/story_write_screen.dart';
 import 'job_hunting_detail_screen.dart';
 import 'job_hunting_request_screen.dart';
 
@@ -33,8 +25,10 @@ class _JobHuntingScreenState extends State<JobHuntingScreen> {
     super.initState();
     //클릭한 타일의 정보 가져오기
     Future.delayed(Duration.zero, () async{
-      await jobFullGet('01081383877');//userL
-      await notjobFullGet('01081383877'); // notuserL
+      final us = Get.put(UserState());
+      await jobFullGet('${us.userList[0].phoneNumber}');//userL
+      print('11');
+      await notjobFullGet('${us.userList[0].phoneNumber}'); // notuserL
       setState(() {});
     });
   }
@@ -45,19 +39,19 @@ class _JobHuntingScreenState extends State<JobHuntingScreen> {
     return RefreshIndicator(
       key: _refreshIndicatorKey,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
+
       onRefresh: () async {
         await _refresh();
       },
       child: CommunityBody(
+        paddingSize: 24,
         body: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('구인구직',style: f24w500,),
-              SizedBox(height: 12,),
-              Text('내 구인구직',style: f20w500,),
+              SizedBox(height: 20,),
               ListView.builder(
                 itemCount: js.userL.length,
                 shrinkWrap: true,
@@ -68,17 +62,23 @@ class _JobHuntingScreenState extends State<JobHuntingScreen> {
                       JobTile(
                         isOpened: true,
                         isStudent: true,
-                        subject: '구직중',
+                        subject: js.userL[index]['jobIs'] == 'true' ? '구직중' : '구직완료',
                         tName: '${js.userL[index]['title']}',
                         onTap: ()async{
                           js.jobDocId.value = js.userL[index]['docId'];
                           js.jobbody.value = js.userL[index]['body'];
+                          js.jobHasImage.value = js.userL[index]['hasImage'];
                           js.jobTitle.value = js.userL[index]['title'];
-                          js.jobList.value = js.userL[index]['picture'];
+                          js.jobList.value = js.userL[index]['images'];
                           js.jobTeacher.value = js.userL[index]['teacher'];
-                          Get.to(() => JobHuntingDetailScreen(docId: '${js.jobDocId}'));
+                          js.jobCreateDate.value = js.userL[index]['createDate'];
+                          js.selectJobTile.clear();
+                          js.selectJobTile.add(js.userL[index]);
+                          Get.to(() => JobHuntingDetailScreen(docId: '${js.jobDocId}'))!.then((value) => {
+                            _refreshIndicatorKey.currentState?.show()
+                          });
                         },
-                        switchOnTap: (){},
+                        switchOnTap: (){}, isjobOK: js.userL[index]['jobIs'] == 'true' ? true : false,
                       ),
                       SizedBox(height: 30,),
                     ],
@@ -98,17 +98,20 @@ class _JobHuntingScreenState extends State<JobHuntingScreen> {
                       JobTile(
                         isOpened: true,
                         isStudent: true,
-                        subject: '구직중',
+                        subject: js.notuserL[index]['jobIs'] == 'true' ? '구직중' : '구직완료',
                         tName: '${js.notuserL[index]['title']}',
                         onTap: ()async{
                           js.jobDocId.value = js.notuserL[index]['docId'];
                           js.jobbody.value = js.notuserL[index]['body'];
                           js.jobTitle.value = js.notuserL[index]['title'];
-                          js.jobList.value = js.notuserL[index]['picture'];
+                          js.jobHasImage.value = js.notuserL[index]['hasImage'];
+                          js.jobList.value = js.notuserL[index]['images'];
                           js.jobTeacher.value = js.notuserL[index]['teacher'];
+                          js.selectJobTile.clear();
+                          js.selectJobTile.add(js.notuserL[index]);
                           Get.to(() => JobHuntingDetailScreen(docId: '${js.jobDocId}',refreshIndicatorKey: _refreshIndicatorKey,));
                         },
-                        switchOnTap: (){},
+                        switchOnTap: (){}, isjobOK: js.notuserL[index]['jobIs'] == 'true' ? true : false,
                       ),
                       SizedBox(height: 30,),
                     ],
@@ -118,17 +121,22 @@ class _JobHuntingScreenState extends State<JobHuntingScreen> {
             ],
           ),
         ),
-        floatingIcon: const Icon(Icons.add),
+        floatingIcon: const Icon(Icons.edit),
         floatingTap: (){
-          Get.toNamed(JobHuntingRequestScreen.id);
+          // Get.toNamed(JobHuntingRequestScreen.id);
+          // Get.toNamed(StoryWriteScreen.id);
+          Get.to(() => StoryWriteScreen(
+            whichScreen: 'job', state: '',
+          ));
         },
       ),
     );
   }
   Future<void> _refresh() async {
     Future.delayed(Duration.zero, () async {
-      await jobFullGet('01081383877');//userL
-      await notjobFullGet('01081383877');
+      final us = Get.put(UserState());
+      await jobFullGet('${us.userList[0].phoneNumber}');//userL
+      await notjobFullGet('${us.userList[0].phoneNumber}');
       setState(() {});
     });
   }

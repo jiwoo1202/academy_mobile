@@ -14,6 +14,66 @@
       },
       "oauth_client": [
         {
+          "client_id": "9676366788-0khvcl4cvjrr52dnrshoob3clqtcm20r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.academy",
+            "certificate_hash": "797ea418b4fb78921646aa77a9e8674775b07659"
+          }
+        },
+        {
+          "client_id": "9676366788-djd0qtj06od025en4f7kd0okq36nrmmu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.academy",
+            "certificate_hash": "80d26b91b80831c7059b0fb0c67c45c383e5776a"
+          }
+        },
+        {
+          "client_id": "9676366788-f6dfn8t5da7v5dlqglm61a94rbl60qco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.academy",
+            "certificate_hash": "928bba1eacdc6574e0985190970e8fda7b110c29"
+          }
+        },
+        {
+          "client_id": "9676366788-4bhqicifbf9665tftotf16j1t91svcco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7zeTSSkLjfpQmQJ1IAH8yUHHj2aBi4No"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9676366788-4bhqicifbf9665tftotf16j1t91svcco.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "9676366788-j3odcu81vgcm5uuja4gldf37nf79old7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.academy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9676366788:android:0446f5e1003ffdf0d47a91",
+        "android_client_info": {
+          "package_name": "com.academymi"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "9676366788-4bhqicifbf9665tftotf16j1t91svcco.apps.googleusercontent.com",
           "client_type": 3
         }
